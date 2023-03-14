@@ -23,7 +23,7 @@ cd robot_demo
 python main.py
 ```
 ## Customize you scenario
-Please make sure you have no running connections to the robotic arm before you do the following operations.
+Please make sure you have no running connections (e.g. connected IDEs or terminals) to the robotic arm before you do the following operations.
 > * Open the installed SDK 'Development Center', wait until the device ID is recognized and shown on the top right corner.
 > * Control the arm with 'Virtual Joystick'.
 > * Get current cartesian/joint values with 'Trajectory Planner'.
