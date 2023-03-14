@@ -2,7 +2,7 @@
 # First 7 values control joints 1 - 7, and the 8th value is twist related value (the last joint), can be taken as twisting angles
 # The last value is sleep-time after the movement (in second)
 
-GoToHomePosition1: [[283.23], [162.70], [0], [43.59], [265.23], [257.52], [288.14], 0, 4]
+GoToHomePosition1: [[283.23], [162.70], [0], [43.59], [265.23], [257.52], [288.14], 0, 10]
 FingerRelease1: [[0], [0], [0], 0, 3]
 GoToStandbyPosition1: [[306.31], [267.34], [-4.19], [127.76], [274.30], [271.38], [319.03], 0, 4]
 GoToBottlePosition1: [[267.72], [267.38], [-4.19], [122.64], [274.13], [271.38], [319.03], 0, 4]
