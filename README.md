@@ -13,7 +13,7 @@ pip install matlabengine==9.11.19
 ```
 ## Run
 We design a simple but complete scenario of drinking water. 
-To run in the terminal, open Anaconda Prompt and enter:
+To run in the terminal, open Anaconda Powershell Prompt and enter:
 ```
 git clone git@github.com:Kang1121/robot_demo.git
 cd robot_demo
