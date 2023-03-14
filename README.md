@@ -18,4 +18,5 @@ We design a simple but complete scenario of drinking water. To run in the termin
 python main.py
 ```
 ## Common Issues
-It's not suggested to open Kinova Development Center while running our codes, which may cause connection failure to hardware. Simply restart terminal and reboot the Robotic Arm will fix most running errors.
+> * It's not suggested to open Kinova Development Center while running our codes, which may cause connection failure to hardware. 
+> * Simply restart terminal and reboot the Robotic Arm will fix most running errors.
