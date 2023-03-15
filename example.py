@@ -9,14 +9,11 @@ To change the scenario, modify the following in this code snippet:
 
 To change or add objects, modify the config (yaml) file and this code accordingly.
 """
-
+import argparse
 from module import RobotControlModule
 
-if __name__ == "__main__":
-    # INITIALIZATION
-    robot = RobotControlModule(preset='preset_ex', verbose=True)
 
-    # EXECUTION
+def run_scenario(robot):
     # Get ready
     robot.reach_to(obj='Home1', lag=10)
     robot.grasp(cmd='open', lag=3)
@@ -60,3 +57,16 @@ if __name__ == "__main__":
     robot.grasp(cmd='close')
 
     robot.rest()
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Robotic Arm Control')
+    parser.add_argument('--preset', type=str, default='preset', help='name of preset config file')
+    parser.add_argument('--verbose', action='store_true', help='robot likes to talk')
+    args = parser.parse_args()
+
+    # INITIALIZATION
+    robotic_arm = RobotControlModule(preset=args.preset, verbose=args.verbose)
+
+    # EXECUTION
+    run_scenario(robotic_arm)
