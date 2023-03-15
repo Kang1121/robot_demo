@@ -1,0 +1,28 @@
+# User-defined world objects and corresponding joint position params for controlling the 7 actuators/joints.
+# Once you fix the locations of objects in the world coordinate, move the robot arm using a physical controller
+# and get the joint params using kinova software (DevelopmentCenter). For details, read the documentation.
+
+#Some tested values for individual joint movement only (exceeding value assignment may cause danger)
+#Joint 1 --> no limit
+#Joint 2 --> 1.0 ~ 4.2
+#Joint 3 --> no limit
+#Joint 4 --> 0.5 ~ 5.5
+#Joint 5 --> no limit
+#Joint 6 --> 1.2 ~ 5.2
+#Joint 7 --> no limit
+
+Home1: [283.23, 162.70, 0, 43.59, 265.23, 257.52, 288.14]
+Standby1: [307.31, 267.34, -4.19, 127.76, 274.30, 271.38, 319.03]
+Bottle1: [267.72, 267.38, -4.19, 122.64, 274.13, 271.38, 319.03]
+Cup1: [220.4, 246.6, -2.63, 75.92, 202.38, 261.38, 353.8]
+Bottle2: [250.4, 253.6, -2.63, 78.92, 210.38, 261.38, 353.8]
+Standby2: [250.4, 220.6, -2.63, 30.92, 210.38, 261.38, 353.8]
+Cup2: [200.4, 240.6, -2.63, 60.92, 180.38, 261.38, 353.8]
+Cup3: [200.4, 240.6, -2.63, 60.92, 180.38, 281.38, 353.8]
+Cup4: [200.4, 260.6, -2.63, 78.92, 180.38, 271.38, 353.8]
+User: [180.4, 245.6, -2.63, 78.92, 180.38, 261.38, 353.8]
+Cup5: [200.4, 260.6, -2.63, 78.92, 180.38, 271.38, 353.8]
+Standby3: [200.4, 260.6, -2.63, 70.92, 180.38, 281.38, 353.8]
+Standby4: [200.4, 260.6, -2.63, 50.92, 180.38, 300.38, 353.8]
+Standby5: [200.4, 235.6, -2.63, 50.92, 180.38, 300.38, 353.8]
+Home2: [283.23, 162.70, 0, 43.59, 265.23, 257.52, 288.14]
