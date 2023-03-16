@@ -16,7 +16,7 @@ Download [official SDK](https://drive.google.com/file/d/1UEQAow0XLcVcPCeQfHK9ERB
 > * SDK_GEN2_1_5_1_x86
 ## Run
 We design a simple but complete scenario of drinking water. 
-To run, first make sure the robotic arm is corrected connected and be recognized by computer, then open Anaconda Powershell Prompt and enter:
+To run, first make sure the robotic arm is corrected connected and recognized by computer, then open Anaconda Powershell Prompt and enter:
 ```
 git clone git@github.com:Kang1121/robot_demo.git
 cd robot_demo
