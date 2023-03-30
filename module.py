@@ -1,22 +1,23 @@
-import math
 import matlab
 import matlab.engine
 import yaml
 from yaml.loader import SafeLoader
+from typing import List
+
 
 class RobotControlModule:
-    def __init__(self, preset, verbose=False):
-        self.controller = self.api_init()
+    def __init__(self, args):
+        self.controller = self.api_init(args.api)
         self.arm = self.controller.initialization(nargout=1)
-        self.world = self.get_params(preset)
-        self.verbose = verbose
-        # TODO: self.joints = ... current state of joints
+        self.world = self.get_preset(args.preset)
+        self.verbose = args.verbose
+        self.current_pos = 0
 
-    def api_init(self):
-
+    @staticmethod
+    def api_init(api_path):
         # Create a matlab session named "controller"
         controller = matlab.engine.start_matlab()
-        matlab_api_path = controller.genpath('matlab_api')
+        matlab_api_path = controller.genpath(api_path)
 
         # Add necessary matlab functions into the path
         controller.addpath(matlab_api_path, nargout=0)
@@ -24,37 +25,36 @@ class RobotControlModule:
         return controller
 
     @staticmethod
-    def get_params(preset):
-
+    def get_preset(preset_path):
         # Open the file and load the file
-        with open(f'{preset}.yaml') as f:
-            params = yaml.load(f, Loader=SafeLoader)
+        with open(f'{preset_path}.yaml') as f:
+            preset = yaml.load(f, Loader=SafeLoader)
 
-        return params
+        return preset
 
-    def reach_to(self, obj, lag=0):
+    def reach(self, cmd: List[float] = None, lag=0): #, speed=0.1, delta=False):
         """
-        Reach to an object using pre-defined joint commands
-        object: high-level reach command (name of object to reach to, pre-defined in preset.yaml)
+        Reach to a position given cartesian coordinates
+        cmd: xyz cartesian coordinates of desired position
         lag: length of pause after the movement (in seconds)
+        delta: whether the cmd is a delta value or not
         """
-        if obj in self.world.keys():
-            params = self.world[obj]
-        else:
-            raise ValueError(f'Unrecognized object: {obj}')
-
-        # Create a nested list of params to feed to matlab function
-        params = matlab.double([[math.radians(i)] for i in params])
-
+        # Create a nested list of commands to feed to matlab function
         if self.verbose:
-            print(f'Moving to {obj}')
+            print(f'Reaching to {cmd}')
             print('-' * 30)
+        cmd = matlab.double([[c] for c in cmd])
 
         # Execute command and update current state of joints
-        self.controller.control(self.arm, 'reach', params, 0, lag, nargout=0)
-        # TODO: self.joints = params
+        current_pos = self.controller.control(self.arm, 'reach', cmd, lag, nargout=1)
+        self.current_pos = current_pos
 
-    def twist(self, cmd='right', angle=180, lag=0):
+    def adjust(self, cmd: List[float] = None, lag=0):
+        cmd = matlab.double([[c] for c in cmd])
+        current_pos = self.controller.control(self.arm, 'adjust', cmd, lag, nargout=1)
+        self.current_pos = current_pos
+
+    def twist(self, cmd: str = 'right', lag=0, angle=180):
         """
         Twist the wrist (7th joint) using pre-defined param
         cmd: high-level twist command. choices=['left', 'right']
@@ -62,21 +62,18 @@ class RobotControlModule:
         lag: length of pause after the movement (in seconds)
         """
         if cmd == 'right':
-            wrist = -30
+            wrist = -30  # velocity of wrist joint
         elif cmd == 'left':
             wrist = 30
         else:
             raise ValueError(f'Unrecognized twist command: {cmd}')
-
-        # Create a nested list of params to feed to matlab function
-        params = [0]*6 + [wrist]  # set 6 other joints to 0
-        params = matlab.double([[math.radians(i)] for i in params])
+        param = matlab.double([wrist])
 
         # Execute command and update current state of joints
-        self.controller.control(self.arm, 'twist', params, angle, lag, nargout=0)
-        # TODO: self.joints = params
+        current_pos = self.controller.control(self.arm, 'twist', param, lag, angle, nargout=1)
+        self.current_pos = current_pos
 
-    def grasp(self, cmd='open', lag=0):
+    def grasp(self, cmd: str = 'open', lag=0):
         """
         Move the 3 fingers using pre-defined param
         cmd: high-level grasp command. choices=['open', 'close']
@@ -88,14 +85,11 @@ class RobotControlModule:
             finger = 0
         else:
             raise ValueError(f'Unrecognized grasp command: {cmd}')
-
-        # Create a nested list of params to feed to matlab function
-        params = [[finger]]*3  # 3 fingers total
-        params = matlab.double(params)
+        param = matlab.double([finger])
 
         # Execute command and update current state of joints
-        self.controller.control(self.arm, 'grasp', params, 0, lag, nargout=0)
-        # TODO: self.joints = params
+        current_pos = self.controller.control(self.arm, 'grasp', param, lag, nargout=1)
+        self.current_pos = current_pos
 
     def rest(self):
         if self.verbose:
