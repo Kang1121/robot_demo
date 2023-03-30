@@ -10,7 +10,7 @@ To change the scenario, modify the following in this code snippet:
 To change or add objects, modify the config (yaml) file and this code accordingly.
 """
 import argparse
-from module_ex import *
+from module import *
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Robotic Arm Control')
