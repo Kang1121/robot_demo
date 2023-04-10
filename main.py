@@ -68,7 +68,7 @@ if __name__ == "__main__":
     # 10. Adjust based on EEG classification result
     cls = 'right'
     x = -0.05 if cls == 'right' else 0.05
-    robot.adjust(cmd=[x, 0, 0], lag=4, delta=True)
+    robot.adjust(cmd=[x, 0, 0], lag=4)
 
     # 11. Grasp object (cup) based on EEG classification result
     # Assume output was 'grasp' (true)
